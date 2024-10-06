@@ -2,6 +2,7 @@ package migrate
 
 import migrate.CommandStrings._
 import migrate.interfaces.Migrate
+import sbt.given
 import sbt.BasicCommandStrings._
 import sbt.Keys._
 import sbt._
@@ -46,13 +47,12 @@ object ScalaMigratePlugin extends AutoPlugin {
   private[migrate] val inputsStore: mutable.Map[Scope, Scala2Inputs] = mutable.Map()
 
   object Keys {
-    val scala2Version = AttributeKey[String]("scala2Version")
+    val scala2Version: AttributeKey[String] = AttributeKey[String]("scala2Version")
 
-    val migrationConfigs =
-      settingKey[List[Configuration]]("the ordered list of configurations to migrate").withRank(KeyRanks.Invisible)
+    val migrationConfigs: SettingKey[List[Configuration]] = settingKey[List[Configuration]]("the ordered list of configurations to migrate").withRank(KeyRanks.Invisible)
 
-    val scala2Inputs = taskKey[Scala2Inputs]("return Scala 2 inputs").withRank(KeyRanks.Invisible)
-    val scala3Inputs = taskKey[Scala3Inputs]("return Scala 3 inputs").withRank(KeyRanks.Invisible)
+    val scala2Inputs: TaskKey[Scala2Inputs] = taskKey[Scala2Inputs]("return Scala 2 inputs").withRank(KeyRanks.Invisible)
+    val scala3Inputs: TaskKey[Scala3Inputs] = taskKey[Scala3Inputs]("return Scala 3 inputs").withRank(KeyRanks.Invisible)
     val storeScala2Inputs =
       taskKey[StateTransform]("store Scala 2 inputs from all migration configurations").withRank(KeyRanks.Invisible)
 

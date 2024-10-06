@@ -6,7 +6,6 @@ inThisBuild(
     scalaVersion               := V.scala213,
     semanticdbEnabled          := true,
     semanticdbVersion          := V.scalameta,
-    scalafixScalaBinaryVersion := V.scala213BinaryVersion,
     organization               := "ch.epfl.scala",
     homepage                   := Some(url("https://github.com/scalacenter/scala3-migrate")),
     licenses                   := List("Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")),
@@ -31,7 +30,6 @@ lazy val root = project
     migrate,
     input,
     output,
-    `sbt-plugin`,
     `scalafix-input`,
     `scalafix-output`,
     `scalafix-rules`,
@@ -109,40 +107,6 @@ lazy val input = project
     )
   )
   .disablePlugins(ScalafixPlugin)
-
-lazy val `sbt-plugin` = project
-  .in(file("plugin"))
-  .enablePlugins(SbtPlugin)
-  .settings(
-    scalaVersion := V.scala212,
-    name         := "sbt-scala3-migrate",
-    libraryDependencies ++= Seq(
-      "io.get-coursier" %% "coursier"                      % V.coursierApi,
-      "io.get-coursier" %% "coursier-sbt-maven-repository" % V.coursierApi,
-      "org.scalatest"   %% "scalatest"                     % V.scalatest % Test
-    ),
-    scriptedLaunchOpts ++= Seq(s"-Dplugin.version=${version.value}"),
-    scriptedDependencies := scriptedDependencies
-      .dependsOn(
-        `migrate-interface` / publishLocal,
-        `compiler-interface` / publishLocal,
-        migrate / publishLocal,
-        `scalafix-rules` / publishLocal
-      )
-      .value,
-    buildInfoPackage  := "migrate",
-    scriptedBufferLog := false,
-    buildInfoKeys := Seq[BuildInfoKey](
-      name,
-      "scala3Version"      -> V.scala3,
-      "scalaBinaryVersion" -> V.scala213BinaryVersion,
-      "scalametaVersion"   -> V.scalameta,
-      version
-    )
-  )
-  .dependsOn(`migrate-interface`)
-  .disablePlugins(ScalafixPlugin)
-  .enablePlugins(BuildInfoPlugin)
 
 lazy val output = project
   .in(file("output"))

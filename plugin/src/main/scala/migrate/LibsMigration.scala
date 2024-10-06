@@ -5,16 +5,16 @@ import ScalaMigratePlugin.Keys._
 import lmcoursier.CoursierConfiguration
 import lmcoursier.definitions.ToCoursier
 import lmcoursier.internal.ResolutionParams
-import Messages._
+import Messages.*
 import migrate.internal.*
 import sbt.Keys
 import sbt.Def
 import sbt.MessageOnlyException
 import sbt.util.Logger
 
-import scala.io.AnsiColor._
+import scala.io.AnsiColor.*
 import scala.util.{Failure, Success, Try}
-import scala.collection.JavaConverters._
+import scala.collection.JavaConverters.*
 
 private[migrate] object LibsMigration {
   val internalImpl = Def.task {
